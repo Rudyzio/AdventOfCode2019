@@ -4,11 +4,11 @@ using Xunit;
 
 namespace AdventOfCode.Tests
 {
-    public class Day6Solver_Tests
+    public class Day06Solver_Tests
     {
         [Theory]
-        [InlineData("Day6_Input/test.input", 42)]
-        [InlineData("Day6_Input/puzzle.input", 117672)]
+        [InlineData("Day06_Input/test.input", 42)]
+        [InlineData("Day06_Input/puzzle.input", 117672)]
         public void TestPart1Solution(string inputFile, int expected)
         {
             // Arrange
@@ -22,8 +22,8 @@ namespace AdventOfCode.Tests
         }
 
         [Theory]
-        [InlineData("Day6_Input/test2.input", 4)]
-        [InlineData("Day6_Input/puzzle.input", 277)]
+        [InlineData("Day06_Input/test2.input", 4)]
+        [InlineData("Day06_Input/puzzle.input", 277)]
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange

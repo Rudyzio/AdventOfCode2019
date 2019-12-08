@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
@@ -14,18 +14,52 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Day 1 Solver\Day 1 Solver.csproj" />
-    <ProjectReference Include="..\Day 2 Solver\Day 2 Solver.csproj" />
-    <ProjectReference Include="..\Day 3 Solver\Day 3 Solver.csproj" />
-    <ProjectReference Include="..\Day 4 Solver\Day 4 Solver.csproj" />
-    <ProjectReference Include="..\Day 5 Solver\Day 5 Solver.csproj" />
-    <ProjectReference Include="..\Day 6 Solver\Day 6 Solver.csproj" />
-    <ProjectReference Include="..\Day 7 Solver\Day 7 Solver.csproj" />
-    <ProjectReference Include="..\Day 8 Solver\Day 8 Solver.csproj" />
+    <ProjectReference Include="..\Day 09 Solver\Day 09 Solver.csproj" />
+    <ProjectReference Include="..\Day 1 Solver\Day 01 Solver.csproj" />
+    <ProjectReference Include="..\Day 10 Solver\Day 10 Solver.csproj" />
+    <ProjectReference Include="..\Day 11 Solver\Day 11 Solver.csproj" />
+    <ProjectReference Include="..\Day 12 Solver\Day 12 Solver.csproj" />
+    <ProjectReference Include="..\Day 13 Solver\Day 13 Solver.csproj" />
+    <ProjectReference Include="..\Day 14 Solver\Day 14 Solver.csproj" />
+    <ProjectReference Include="..\Day 15 Solver\Day 15 Solver.csproj" />
+    <ProjectReference Include="..\Day 16 Solver\Day 16 Solver.csproj" />
+    <ProjectReference Include="..\Day 17 Solver\Day 17 Solver.csproj" />
+    <ProjectReference Include="..\Day 18 Solver\Day 18 Solver.csproj" />
+    <ProjectReference Include="..\Day 19 Solver\Day 19 Solver.csproj" />
+    <ProjectReference Include="..\Day 2 Solver\Day 02 Solver.csproj" />
+    <ProjectReference Include="..\Day 20 Solver\Day 20 Solver.csproj" />
+    <ProjectReference Include="..\Day 21 Solver\Day 21 Solver.csproj" />
+    <ProjectReference Include="..\Day 22 Solver\Day 22 Solver.csproj" />
+    <ProjectReference Include="..\Day 23 Solver\Day 23 Solver.csproj" />
+    <ProjectReference Include="..\Day 24 Solver\Day 24 Solver.csproj" />
+    <ProjectReference Include="..\Day 25 Solver\Day 25 Solver.csproj" />
+    <ProjectReference Include="..\Day 3 Solver\Day 03 Solver.csproj" />
+    <ProjectReference Include="..\Day 4 Solver\Day 04 Solver.csproj" />
+    <ProjectReference Include="..\Day 5 Solver\Day 05 Solver.csproj" />
+    <ProjectReference Include="..\Day 6 Solver\Day 06 Solver.csproj" />
+    <ProjectReference Include="..\Day 7 Solver\Day 07 Solver.csproj" />
+    <ProjectReference Include="..\Day 8 Solver\Day 08 Solver.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Day4_Input\" />
+    <Folder Include="Day04_Input\" />
+    <Folder Include="Day09_Input\" />
+    <Folder Include="Day10_Input\" />
+    <Folder Include="Day11_Input\" />
+    <Folder Include="Day12_Input\" />
+    <Folder Include="Day13_Input\" />
+    <Folder Include="Day14_Input\" />
+    <Folder Include="Day15_Input\" />
+    <Folder Include="Day16_Input\" />
+    <Folder Include="Day17_Input\" />
+    <Folder Include="Day18_Input\" />
+    <Folder Include="Day19_Input\" />
+    <Folder Include="Day20_Input\" />
+    <Folder Include="Day21_Input\" />
+    <Folder Include="Day22_Input\" />
+    <Folder Include="Day23_Input\" />
+    <Folder Include="Day24_Input\" />
+    <Folder Include="Day25_Input\" />
   </ItemGroup>
 
 </Project>

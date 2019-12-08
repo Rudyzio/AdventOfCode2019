@@ -1,12 +1,9 @@
 ﻿using Day_4_Solver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace AdventOfCode.Tests
 {
-    public class Day4Solver_Tests
+    public class Day04Solver_Tests
     {
         [Theory]
         [InlineData(1855)]

@@ -4,11 +4,11 @@ using Xunit;
 
 namespace AdventOfCode.Tests
 {
-    public class Day8Solver_Tests
+    public class Day08Solver_Tests
     {
         [Theory]
-        [InlineData("Day8_Input/puzzle.input", 25, 6, "1360")]
-        [InlineData("Day8_Input/test.input", 3, 2, "1")]
+        [InlineData("Day08_Input/puzzle.input", 25, 6, "1360")]
+        [InlineData("Day08_Input/test.input", 3, 2, "1")]
         public void TestPart1Solution(string inputFile, int wide, int tall, string expected)
         {
             // Arrange
@@ -23,8 +23,8 @@ namespace AdventOfCode.Tests
 
         [Theory]
         // FPUAR
-        [InlineData("Day8_Input/puzzle.input", 25, 6, "#### ###  #  #  ##  ###  #    #  # #  # #  # #  # ###  #  # #  # #  # #  # #    ###  #  # #### ###  #    #    #  # #  # # #  #    #     ##  #  # #  # ")]
-        [InlineData("Day8_Input/test1.input", 2, 2, " ## ")]
+        [InlineData("Day08_Input/puzzle.input", 25, 6, "#### ###  #  #  ##  ###  #    #  # #  # #  # #  # ###  #  # #  # #  # #  # #    ###  #  # #### ###  #    #    #  # #  # # #  #    #     ##  #  # #  # ")]
+        [InlineData("Day08_Input/test1.input", 2, 2, " ## ")]
         public void TestPart2Solution(string inputFile, int wide, int tall, string expected)
         {
             // Arrange

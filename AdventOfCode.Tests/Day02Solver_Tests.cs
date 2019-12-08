@@ -3,15 +3,15 @@ using Xunit;
 
 namespace AdventOfCode.Tests
 {
-    public class Day2Solver_Tests
+    public class Day02Solver_Tests
     {
         [Theory]
-        [InlineData("Day2_Input/test1.input", 3500)]
-        [InlineData("Day2_Input/test2.input", 2)]
-        [InlineData("Day2_Input/test3.input", 2)]
-        [InlineData("Day2_Input/test4.input", 2)]
-        [InlineData("Day2_Input/test5.input", 30)]
-        [InlineData("Day2_Input/puzzle.input", 3058646)]
+        [InlineData("Day02_Input/test1.input", 3500)]
+        [InlineData("Day02_Input/test2.input", 2)]
+        [InlineData("Day02_Input/test3.input", 2)]
+        [InlineData("Day02_Input/test4.input", 2)]
+        [InlineData("Day02_Input/test5.input", 30)]
+        [InlineData("Day02_Input/puzzle.input", 3058646)]
         public void TestPart1Solution(string inputFile, int expected)
         {
             // Arrange
@@ -31,7 +31,7 @@ namespace AdventOfCode.Tests
         }
 
         [Theory]
-        [InlineData("Day2_Input/puzzle.input", 8976)]
+        [InlineData("Day02_Input/puzzle.input", 8976)]
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange

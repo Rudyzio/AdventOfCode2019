@@ -1,35 +1,33 @@
-﻿using Day_1_Solver;
+﻿using Day_22_Solver;
 using Xunit;
 
 namespace AdventOfCode.Tests
 {
-    public class Day1Solver_Tests
+    public class Day22Solver_Tests
     {
         [Theory]
-        [InlineData("Day1_Input/test.input", 34241)]
-        [InlineData("Day1_Input/puzzle.input", 3429947)]
+        [InlineData("Day22_Input/puzzle.input", 5357)]
         public void TestPart1Solution(string inputFile, int expected)
         {
             // Arrange
             string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
 
             // Act
-            var result = Day1Solver.Part1Solution(lines);
+            var result = Day22Solver.Part1Solution(lines);
 
             // Assert
             Assert.Equal(expected, result);
         }
 
         [Theory]
-        [InlineData("Day1_Input/test.input", 51316)]
-        [InlineData("Day1_Input/puzzle.input", 5142043)]
+        [InlineData("Day22_Input/puzzle.input", 102256)]
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange
             string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
 
             // Act
-            var result = Day1Solver.Part2Solution(lines);
+            var result = Day22Solver.Part2Solution(lines);
 
             // Assert
             Assert.Equal(expected, result);

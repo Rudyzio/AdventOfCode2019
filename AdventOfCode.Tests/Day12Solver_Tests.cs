@@ -1,33 +1,33 @@
-﻿using Day_5_Solver;
+﻿using Day_12_Solver;
 using Xunit;
 
 namespace AdventOfCode.Tests
 {
-    public class Day5Solver_Tests
+    public class Day12Solver_Tests
     {
         [Theory]
-        [InlineData("Day5_Input/puzzle.input", 5182797)]
+        [InlineData("Day12_Input/puzzle.input", 5357)]
         public void TestPart1Solution(string inputFile, int expected)
         {
             // Arrange
-            int[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
+            string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
 
             // Act
-            var result = Day5Solver.Part1Solution(input);
+            var result = Day12Solver.Part1Solution(lines);
 
             // Assert
             Assert.Equal(expected, result);
         }
 
         [Theory]
-        [InlineData("Day5_Input/puzzle.input", 12077198)]
+        [InlineData("Day12_Input/puzzle.input", 101956)]
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange
-            int[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
+            string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
 
             // Act
-            var result = Day5Solver.Part2Solution(input);
+            var result = Day12Solver.Part2Solution(lines);
 
             // Assert
             Assert.Equal(expected, result);
