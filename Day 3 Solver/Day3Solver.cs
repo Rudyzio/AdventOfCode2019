@@ -2,20 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Day_3
+namespace Day_3_Solver
 {
-    internal static class Program
+    public class Day3Solver
     {
-        private static void Main(string[] args)
+        public static int Part1Solution(string[] lines)
         {
-            Part1Solution();
-            Part2Solution();
-        }
-
-        private static void Part1Solution()
-        {
-            string[] lines = System.IO.File.ReadAllLines("../../../puzzle.input");
-
             string[] firstWireInput = lines[0].Split(",");
             string[] secondWireOutput = lines[1].Split(",");
 
@@ -25,7 +17,6 @@ namespace Day_3
             var intersections = FetchIntersections(firstWireMarks, secondWireMarks);
             int closestPort = 0;
 
-            Console.WriteLine("### These are the intersection points ###");
             foreach (var mark in intersections)
             {
                 if (closestPort == 0)
@@ -38,13 +29,11 @@ namespace Day_3
                 }
             }
 
-            Console.WriteLine($"Closest port distance is {closestPort}");
+            return closestPort;
         }
 
-        private static void Part2Solution()
+        public static int Part2Solution(string[] lines)
         {
-            string[] lines = System.IO.File.ReadAllLines("../../../puzzle.input");
-
             string[] firstWireInput = lines[0].Split(",");
             string[] secondWireOutput = lines[1].Split(",");
 
@@ -69,7 +58,7 @@ namespace Day_3
                 }
             }
 
-            Console.WriteLine($"Closest step distance is {lessSteps}");
+            return lessSteps;
         }
 
         private static List<GridMark> CreateGridMarks(string[] wireInput)

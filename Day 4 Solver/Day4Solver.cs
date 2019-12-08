@@ -1,16 +1,10 @@
 ﻿using System;
 
-namespace Day_4
+namespace Day_4_Solver
 {
-    internal static class Program
+    public class Day4Solver
     {
-        private static void Main(string[] args)
-        {
-            Part1Solution();
-            Part2Solution();
-        }
-
-        private static void Part1Solution()
+        public static int Part1Solution()
         {
             const int lowEnd = 138307;
             const int highEnd = 654504;
@@ -26,10 +20,10 @@ namespace Day_4
                 }
                 value++;
             }
-            Console.WriteLine($"There are {count} possibilities of a password");
+            return count;
         }
 
-        private static void Part2Solution()
+        public static int Part2Solution()
         {
             const int lowEnd = 138307;
             const int highEnd = 654504;
@@ -45,7 +39,7 @@ namespace Day_4
                 }
                 value++;
             }
-            Console.WriteLine($"There are {count} possibilities of a password");
+            return count;
         }
 
         private static bool IsSixDigitNumber(int value)

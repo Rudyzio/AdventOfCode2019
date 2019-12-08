@@ -1,37 +1,24 @@
 ﻿using System;
 
-namespace Day_1
+namespace Day_1_Solver
 {
-    internal static class Program
+    public static class Day1Solver
     {
-        private static void Main(string[] args)
+        public static int Part1Solution(string[] lines)
         {
-            Part1Solution();
-            Part2Solution();
-        }
-
-        private static void Part1Solution()
-        {
-            string[] lines = System.IO.File.ReadAllLines("../../../puzzle.input");
-
             int totalFuel = 0;
             foreach (string line in lines)
             {
                 int mass = int.Parse(line);
                 int individualFuel = Convert.ToInt32(Math.Floor((double)(mass / 3)) - 2);
-                Console.WriteLine($"Fuel for {mass} is {individualFuel}");
                 totalFuel += individualFuel;
             }
 
-            Console.WriteLine($"Total fuel is {totalFuel}");
-            Console.WriteLine("Press any key to exit.");
-            System.Console.ReadKey();
+            return totalFuel;
         }
 
-        private static void Part2Solution()
+        public static int Part2Solution(string[] lines)
         {
-            string[] lines = System.IO.File.ReadAllLines("../../../puzzle.input");
-
             int totalFuel = 0;
             foreach (string line in lines)
             {
@@ -50,13 +37,10 @@ namespace Day_1
                     individualFuel += intermediateFuel;
                     intermediateMass = intermediateFuel;
                 }
-                Console.WriteLine($"Fuel for {mass} is {individualFuel} --> {individualString}");
                 totalFuel += individualFuel;
             }
 
-            Console.WriteLine($"Total fuel is {totalFuel}");
-            Console.WriteLine("Press any key to exit.");
-            System.Console.ReadKey();
+            return totalFuel;
         }
     }
 }
