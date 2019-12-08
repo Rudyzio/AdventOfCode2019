@@ -22,5 +22,16 @@ namespace AdventOfCode.Tests
             }
             return toReturn;
         }
+
+        public static List<int> ReadDigits(string input)
+        {
+            var toReturn = new List<int>();
+            string[] lines = System.IO.File.ReadAllLines(input);
+            foreach(char digit in lines[0])
+            {
+                toReturn.Add(int.Parse(digit.ToString()));
+            }
+            return toReturn;
+        }
     }
 }
