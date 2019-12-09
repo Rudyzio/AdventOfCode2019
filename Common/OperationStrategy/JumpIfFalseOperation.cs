@@ -4,13 +4,13 @@ namespace Common.OperationStrategy
 {
     public class JumpIfFalseOperation : OperationStrategy
     {
-        public override void Execute(int[] input, ref int instructionPointer, List<ParameterMode> paramModes)
+        public override void Execute(ref long[] input, ref long instructionPointer, List<ParameterMode> paramModes, ref long relativeBase)
         {
-            int firstParam = input[instructionPointer + 1];
-            int secondParam = input[instructionPointer + 2];
+            long firstParam = input[instructionPointer + 1];
+            long secondParam = input[instructionPointer + 2];
 
-            int firstValue = GetParamValue(firstParam, paramModes[0], input);
-            int secondValue = GetParamValue(secondParam, paramModes[1], input);
+            long firstValue = GetParamValue(firstParam, paramModes[0], ref input, ref relativeBase);
+            long secondValue = GetParamValue(secondParam, paramModes[1], ref input, ref relativeBase);
 
             if (firstValue == 0)
             {

@@ -4,16 +4,17 @@ namespace Common.OperationStrategy
 {
     public class MultiplyOperation : OperationStrategy
     {
-        public override void Execute(int[] input, ref int instructionPointer, List<ParameterMode> paramModes)
+        public override void Execute(ref long[] input, ref long instructionPointer, List<ParameterMode> paramModes, ref long relativeBase)
         {
-            int firstParam = input[instructionPointer + 1];
-            int secondParam = input[instructionPointer + 2];
-            int outputPosition = input[instructionPointer + 3];
+            long firstParam = input[instructionPointer + 1];
+            long secondParam = input[instructionPointer + 2];
+            long outputPosition = input[instructionPointer + 3];
 
-            int firstValue = GetParamValue(firstParam, paramModes[0], input);
-            int secondValue = GetParamValue(secondParam, paramModes[1], input);
+            long firstValue = GetParamValue(firstParam, paramModes[0], ref input, ref relativeBase);
+            long secondValue = GetParamValue(secondParam, paramModes[1], ref input, ref relativeBase);
 
-            input[outputPosition] = firstValue * secondValue;
+            long address = GetAddress(outputPosition, paramModes[2], ref input, ref relativeBase);
+            input[address] = firstValue * secondValue;
 
             instructionPointer += 4;
         }

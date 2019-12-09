@@ -10,7 +10,7 @@ namespace AdventOfCode.Tests
         public void TestPart1Solution(string inputFile, int expected)
         {
             // Arrange
-            int[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
+            long[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
 
             // Act
             var result = Day5Solver.Part1Solution(input);
@@ -24,7 +24,7 @@ namespace AdventOfCode.Tests
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange
-            int[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
+            long[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
 
             // Act
             var result = Day5Solver.Part2Solution(input);

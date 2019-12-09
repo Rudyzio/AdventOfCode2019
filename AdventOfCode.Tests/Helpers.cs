@@ -5,10 +5,10 @@ namespace AdventOfCode.Tests
 {
     internal static class Helpers
     {
-        public static int[] ReadIntCodeInput(string input)
+        public static long[] ReadIntCodeInput(string input)
         {
             string[] lines = System.IO.File.ReadAllLines(input);
-            return Array.ConvertAll(lines[0].Split(","), s => int.Parse(s));
+            return Array.ConvertAll(lines[0].Split(","), s => long.Parse(s));
         }
 
         public static List<KeyValuePair<string, string>> ReadOrbits(string input)

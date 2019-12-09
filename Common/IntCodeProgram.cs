@@ -1,4 +1,5 @@
 ﻿using Common.OperationStrategy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,42 +7,48 @@ namespace Common
 {
     public class IntCodeProgram
     {
-        public Queue<int> Input { get; }
-        public Queue<int> Output { get; }
-        private int instructionPointer;
-        private readonly int[] _initialMemory;
-        private readonly int[] _memory;
+        public Queue<long> Input { get; }
+        public Queue<long> Output { get; }
+        private long instructionPointer;
+        private readonly long[] _initialMemory;
+        private long[] _memory;
+        private long relativeBase;
 
-        public IntCodeProgram(int[] memory)
+        public IntCodeProgram(long[] memory)
         {
             _initialMemory = memory.ToArray();
             _memory = _initialMemory.ToArray();
-            Input = new Queue<int>();
-            Output = new Queue<int>();
+            Input = new Queue<long>();
+            Output = new Queue<long>();
             instructionPointer = 0;
+            relativeBase = 0;
         }
 
-        public IntCodeProgram(int[] memory, int inputValue)
+        public IntCodeProgram(int[] memory) : this(memory.Select(x => (long)x).ToArray())
         {
-            _initialMemory = memory.ToArray();
-            _memory = _initialMemory.ToArray();
-            Input = new Queue<int>();
-            Output = new Queue<int>();
-            instructionPointer = 0;
+        }
 
+        public IntCodeProgram(long[] memory, long inputValue) : this(memory)
+        {
             Input.Enqueue(inputValue);
         }
 
-        public IntCodeProgram(int[] memory, Queue<int> input)
+        public IntCodeProgram(int[] memory, int inputValue) : this(memory)
         {
-            _initialMemory = memory.ToArray();
-            _memory = _initialMemory.ToArray();
-            Input = input;
-            Output = new Queue<int>();
-            instructionPointer = 0;
+            Input.Enqueue(inputValue);
         }
 
-        public int GetFirstPosition()
+        public IntCodeProgram(long[] memory, Queue<long> input) : this(memory)
+        {
+            Input = input;
+        }
+
+        public IntCodeProgram(int[] memory, Queue<long> input) : this(memory)
+        {
+            Input = input;
+        }
+
+        public long GetFirstPosition()
         {
             return _memory[0];
         }
@@ -64,7 +71,7 @@ namespace Common
                     return Halt.NeedInput;
                 }
 
-                operations[singleOpCode].Execute(_memory, ref instructionPointer, GetParameterModes(opCode));
+                operations[singleOpCode].Execute(ref _memory, ref instructionPointer, GetParameterModes(opCode), ref relativeBase);
             }
         }
 
@@ -79,16 +86,17 @@ namespace Common
                 { OpCode.JumpIfTrue, new JumpIfTrueOperation() },
                 { OpCode.JumpIfFalse, new JumpIfFalseOperation() },
                 { OpCode.LessThan, new LessThanOperation() },
-                { OpCode.Equals, new EqualsOperation() }
+                { OpCode.Equals, new EqualsOperation() },
+                { OpCode.RelativeBase, new RelativeBaseOperation() }
             };
         }
 
-        private OpCode GetOpCode(int opCodeExtended)
+        private OpCode GetOpCode(long opCodeExtended)
         {
             return (OpCode)GetDigit(opCodeExtended, 1);
         }
 
-        private List<ParameterMode> GetParameterModes(int opCodeExtended)
+        private List<ParameterMode> GetParameterModes(long opCodeExtended)
         {
             ParameterMode firstParamMode = (ParameterMode)GetDigit(opCodeExtended, 3);
             ParameterMode secondParamMode = (ParameterMode)GetDigit(opCodeExtended, 4);
@@ -97,10 +105,10 @@ namespace Common
             return new List<ParameterMode>() { firstParamMode, secondParamMode, thirdParamMode };
         }
 
-        private static int GetDigit(int value, int rightToLeftTimes)
+        private static long GetDigit(long value, int rightToLeftTimes)
         {
             int count = 0;
-            int toReturn = value;
+            long toReturn = value;
             while (count < rightToLeftTimes)
             {
                 toReturn = value % 10;
@@ -121,13 +129,15 @@ namespace Common
         JumpIfFalse = 6,
         LessThan = 7,
         Equals = 8,
+        RelativeBase = 9,
         Halt = 99
     }
 
     public enum ParameterMode
     {
         Position = 0,
-        Immediate = 1
+        Immediate = 1,
+        Relative = 2
     }
 
     public enum Halt

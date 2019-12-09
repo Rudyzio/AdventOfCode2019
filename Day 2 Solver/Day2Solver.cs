@@ -5,20 +5,20 @@ namespace Day_2_Solver
 {
     public static class Day2Solver
     {
-        public static int Part1Solution(int[] input)
+        public static long Part1Solution(long[] input)
         {
             var program = new IntCodeProgram(input);
             program.Run();
             return program.GetFirstPosition();
         }
 
-        public static int Part2Solution(int[] originalNumbersArray)
+        public static long Part2Solution(long[] originalNumbersArray)
         {
-            var memoryNumbersArray = new int[originalNumbersArray.Length];
+            var memoryNumbersArray = new long[originalNumbersArray.Length];
 
             bool found = false;
-            int noun = 0;
-            int verb = 0;
+            long noun = 0;
+            long verb = 0;
             for (var i = 0; i <= 99; i++)
             {
                 for (var j = 0; j <= 99; j++)

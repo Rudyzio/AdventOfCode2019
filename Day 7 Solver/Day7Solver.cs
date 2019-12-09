@@ -7,21 +7,21 @@ namespace Day_7_Solver
 {
     public static class Day7Solver
     {
-        public static int Part1Solution(int[] input)
+        public static long Part1Solution(long[] input)
         {
             IntCodeProgram[] amplifiers = new IntCodeProgram[5];
-            int highestScore = Normal(input, amplifiers);
+            long highestScore = Normal(input, amplifiers);
             return highestScore;
         }
 
-        public static int Part2Solution(int[] input)
+        public static long Part2Solution(long[] input)
         {
             IntCodeProgram[] amplifiers = new IntCodeProgram[5];
-            int highestScore = Feedback(input, amplifiers);
+            long highestScore = Feedback(input, amplifiers);
             return highestScore;
         }
 
-        private static int Normal(int[] input, IntCodeProgram[] amplifiers)
+        private static int Normal(long[] input, IntCodeProgram[] amplifiers)
         {
             var allPhaseSettingSequences = GetPermutations(Enumerable.Range(0, 5).ToList());
             int highestScore = 0;
@@ -29,12 +29,12 @@ namespace Day_7_Solver
             foreach (var phaseSettingSequence in allPhaseSettingSequences)
             {
                 NormalSet(input, amplifiers, phaseSettingSequence);
-                highestScore = Math.Max(amplifiers.Last().Output.Last(), highestScore);
+                highestScore = (int) Math.Max(amplifiers.Last().Output.Last(), highestScore);
             }
             return highestScore;
         }
 
-        private static int Feedback(int[] input, IntCodeProgram[] amplifiers)
+        private static int Feedback(long[] input, IntCodeProgram[] amplifiers)
         {
             var feedbackPhaseSettingSequences = GetPermutations(Enumerable.Range(5, 5).ToList());
             int highestScore = 0;
@@ -47,12 +47,12 @@ namespace Day_7_Solver
             return highestScore;
         }
 
-        private static void NormalSet(int[] input, IntCodeProgram[] amplifiers, List<int> phaseSettingSequence)
+        private static void NormalSet(long[] input, IntCodeProgram[] amplifiers, List<int> phaseSettingSequence)
         {
-            Queue<int> nextInput = new Queue<int>();
+            Queue<long> nextInput = new Queue<long>();
             for (var i = 0; i < amplifiers.Length; i++)
             {
-                Queue<int> inputQueue = new Queue<int>();
+                Queue<long> inputQueue = new Queue<long>();
                 if (i == 0)
                 {
                     inputQueue.Enqueue(phaseSettingSequence[i]);
@@ -70,7 +70,7 @@ namespace Day_7_Solver
             }
         }
 
-        private static int FeedbackSet(int[] input, IntCodeProgram[] amplifiers, List<int> phaseSettingSequence)
+        private static int FeedbackSet(long[] input, IntCodeProgram[] amplifiers, List<int> phaseSettingSequence)
         {
             for (int i = 0; i < amplifiers.Length; i++)
             {
@@ -79,7 +79,7 @@ namespace Day_7_Solver
             amplifiers[0].Input.Enqueue(0);
 
             Queue<IntCodeProgram> amplifiersQueue = new Queue<IntCodeProgram>(amplifiers);
-            Queue<int> nextInput = new Queue<int>();
+            Queue<long> nextInput = new Queue<long>();
             while (amplifiersQueue.Count > 0)
             {
                 IntCodeProgram amp = amplifiersQueue.Dequeue();
@@ -91,10 +91,10 @@ namespace Day_7_Solver
                     amplifiersQueue.Enqueue(amp);
             }
 
-            return nextInput.Single();
+            return (int)nextInput.Single();
         }
 
-        private static void OutputToInput(Queue<int> output, Queue<int> input)
+        private static void OutputToInput(Queue<long> output, Queue<long> input)
         {
             while (output.Count > 0)
             {

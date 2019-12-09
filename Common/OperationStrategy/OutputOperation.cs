@@ -4,28 +4,34 @@ namespace Common.OperationStrategy
 {
     public class OutputOperation : OperationStrategy
     {
-        private readonly Queue<int> _output;
+        private readonly Queue<long> _output;
 
-        public OutputOperation(Queue<int> output)
+        public OutputOperation(Queue<long> output)
         {
             _output = output;
         }
 
-        public override void Execute(int[] input, ref int instructionPointer, List<ParameterMode> paramModes)
+        public override void Execute(ref long[] input, ref long instructionPolonger, List<ParameterMode> paramModes, ref long relativeBase)
         {
-            int param = input[instructionPointer + 1];
+            long param = input[instructionPolonger + 1];
             ParameterMode paramMode = paramModes[0];
 
-            if (paramMode == ParameterMode.Immediate)
+            switch(paramMode)
             {
-                _output.Enqueue(param);
-            }
-            else
-            {
-                _output.Enqueue(input[param]);
+                case ParameterMode.Immediate:
+                    _output.Enqueue(param);
+                    break;
+                case ParameterMode.Position:
+                    CheckIndexExistAndResizeIfNeeded(ref input, param);
+                    _output.Enqueue(input[param]);
+                    break;
+                case ParameterMode.Relative:
+                    CheckIndexExistAndResizeIfNeeded(ref input, relativeBase + param);
+                    _output.Enqueue(input[relativeBase + param]);
+                    break;
             }
 
-            instructionPointer += 2;
+            instructionPolonger += 2;
         }
     }
 }

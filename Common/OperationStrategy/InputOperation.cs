@@ -4,17 +4,18 @@ namespace Common.OperationStrategy
 {
     public class InputOperation : OperationStrategy
     {
-        private readonly Queue<int> _input;
+        private readonly Queue<long> _input;
 
-        public InputOperation(Queue<int> input)
+        public InputOperation(Queue<long> input)
         {
             _input = input;
         }
 
-        public override void Execute(int[] input, ref int instructionPointer, List<ParameterMode> paramModes)
+        public override void Execute(ref long[] input, ref long instructionPointer, List<ParameterMode> paramModes, ref long relativeBase)
         {
-            int param = input[instructionPointer + 1];
-            input[param] = _input.Dequeue();
+            long param = input[instructionPointer + 1];
+            long address = GetAddress(param, paramModes[0], ref input, ref relativeBase);
+            input[address] = _input.Dequeue();
 
             instructionPointer += 2;
         }
