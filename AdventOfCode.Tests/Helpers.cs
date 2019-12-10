@@ -27,9 +27,26 @@ namespace AdventOfCode.Tests
         {
             var toReturn = new List<int>();
             string[] lines = System.IO.File.ReadAllLines(input);
-            foreach(char digit in lines[0])
+            foreach (char digit in lines[0])
             {
                 toReturn.Add(int.Parse(digit.ToString()));
+            }
+            return toReturn;
+        }
+
+        public static string[][] ReadAsteroidMap(string input)
+        {
+            string[] lines = System.IO.File.ReadAllLines(input);
+            string[][] toReturn = new string[lines.Length][];
+            for (var i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                var newArray = new string[line.Length];
+                for (int j = 0; j < line.Length; j++)
+                {
+                    newArray[j] = line[j].ToString();
+                }
+                toReturn[i] = newArray;
             }
             return toReturn;
         }
