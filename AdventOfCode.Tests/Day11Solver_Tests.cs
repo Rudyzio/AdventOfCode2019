@@ -7,28 +7,28 @@ namespace AdventOfCode.Tests
     public class Day11Solver_Tests
     {
         [Theory]
-        [InlineData("Day11_Input/puzzle.input", 5357)]
-        public void TestPart1Solution(string inputFile, int expected)
+        [InlineData("Day11_Input/puzzle.input", 2255)]
+        public void TestPart1Solution(string inputFile, long expected)
         {
             // Arrange
-            string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
+            long[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
 
             // Act
-            var result = Day11Solver.Part1Solution(lines);
+            var result = Day11Solver.Part1Solution(input);
 
             // Assert
             Assert.Equal(expected, result);
         }
 
         [Theory]
-        [InlineData("Day11_Input/puzzle.input", 101956)]
+        [InlineData("Day11_Input/puzzle.input", 248)]
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange
-            string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
+            long[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
 
             // Act
-            var result = Day11Solver.Part2Solution(lines);
+            var result = Day11Solver.Part2Solution(input);
 
             // Assert
             Assert.Equal(expected, result);

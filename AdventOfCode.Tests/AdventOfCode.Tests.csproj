@@ -43,7 +43,6 @@
 
   <ItemGroup>
     <Folder Include="Day04_Input\" />
-    <Folder Include="Day11_Input\" />
     <Folder Include="Day12_Input\" />
     <Folder Include="Day13_Input\" />
     <Folder Include="Day14_Input\" />
