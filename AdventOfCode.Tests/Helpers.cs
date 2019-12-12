@@ -50,5 +50,22 @@ namespace AdventOfCode.Tests
             }
             return toReturn;
         }
+
+        public static int[][] ReadJupiterMoons(string input)
+        {
+            string[] lines = System.IO.File.ReadAllLines(input);
+            int[][] toReturn = new int[lines.Length][];
+            for (var i = 0; i < lines.Length; i++)
+            {
+                string[] splitted = lines[i].Split(",");
+                var newArray = new int[splitted.Length];
+                for (var j = 0; j < splitted.Length; j++)
+                {
+                    newArray[j] = int.Parse(splitted[j].Split("=")[1].Replace("<", "").Replace(">", ""));
+                }
+                toReturn[i] = newArray;
+            }
+            return toReturn;
+        }
     }
 }
