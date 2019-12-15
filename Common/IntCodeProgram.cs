@@ -117,6 +117,11 @@ namespace Common
             }
             return toReturn;
         }
+
+        public IntCodeProgram Clone()
+        {
+            return new IntCodeProgram(_memory.ToArray());
+        }
     }
 
     public enum OpCode

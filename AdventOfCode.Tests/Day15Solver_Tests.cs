@@ -7,13 +7,13 @@ namespace AdventOfCode.Tests
     {
         [Theory]
         [InlineData("Day15_Input/puzzle.input", 5357)]
-        public void TestPart1Solution(string inputFile, int expected)
+        public void TestPart1Solution(string inputFile, long expected)
         {
             // Arrange
-            string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
+            long[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
 
             // Act
-            var result = Day15Solver.Part1Solution(lines);
+            var result = Day15Solver.Part1Solution(input);
 
             // Assert
             Assert.Equal(expected, result);
@@ -24,10 +24,10 @@ namespace AdventOfCode.Tests
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange
-            string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
+            long[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
 
             // Act
-            var result = Day15Solver.Part2Solution(lines);
+            var result = Day15Solver.Part2Solution(input);
 
             // Assert
             Assert.Equal(expected, result);
