@@ -9,103 +9,252 @@ namespace Day_15_Solver
     {
         public static long Part1Solution(long[] input)
         {
-            return TraverseGrid(input);
-        }
-
-        private static int TraverseGrid(long[] input)
-        {
-            List<Position> exploredPositions = new List<Position>();
-            Queue<Droid> droids = new Queue<Droid>();
-            exploredPositions.Add(new Position(0, 0, Answer.Success));
-            var initialDroid = new Droid(new Position(0, 0, Answer.Allowed), new IntCodeProgram(input));
-            droids.Enqueue(initialDroid);
-
-            while (droids.Count > 0)
-            {
-                var droid = droids.Dequeue();
-
-                // There are four directions
-                for (int i = 1; i <= 4; i++)
-                {
-                    var command = (Command)i;
-                    var newDroid = droid.MoveBFS(command, exploredPositions);
-
-                    if (newDroid != null)
-                    {
-                        if (newDroid.Success)
-                        {
-                            return 100; // Just dummy to see if it really finds anything
-                        }
-                        droids.Enqueue(newDroid);
-                    }
-                }
-
-                if(exploredPositions.Count > 2000)
-                {
-                    break;
-                }
-            }
-            PrintMap(exploredPositions);
-            return 0;
+            PositionsGraph<Position> positions = new PositionsGraph<Position>();
+            return DFSGrid(input, positions);
         }
 
         public static int Part2Solution(long[] input)
         {
-            return 0;
+            PositionsGraph<Position> positions = new PositionsGraph<Position>();
+            var levelsReached = new List<int>();
+            DFSGrid(input, positions);
+            int count = 0;
+            positions.AdjacencyList.First(x => x.Key.HasOxygen).Key.Level = 0;
+            while (positions.AdjacencyList.Any(x => !x.Key.HasOxygen))
+            {
+                var positionsWithOxygenNotVisited = positions.AdjacencyList.Where(x => x.Key.HasOxygen && !x.Key.Visited);
+                foreach (var tuple in positionsWithOxygenNotVisited)
+                {
+                    tuple.Key.Visited = true;
+                    foreach (var child in tuple.Value)
+                    {
+                        if (!positions.AdjacencyList.First(pos => pos.Key.X == child.X && pos.Key.Y == child.Y).Key.HasOxygen)
+                        {
+                            Console.WriteLine($"Marking {child.X}:{child.Y} to have oxygen and level {tuple.Key.Level}");
+                            positions.AdjacencyList.First(pos => pos.Key.X == child.X && pos.Key.Y == child.Y).Key.HasOxygen = true;
+                            positions.AdjacencyList.First(pos => pos.Key.X == child.X && pos.Key.Y == child.Y).Key.Level = tuple.Key.Level + 1;
+                        }
+                    }
+                    count = tuple.Key.Level;
+                }
+            }
+            return count;
         }
 
-        private static void PrintMap(List<Position> exploredPositions)
+        private static int BFS(PositionsGraph<Position> graph, Position start, int count = 0)
         {
-            int minY = Math.Abs(exploredPositions.Min(mark => mark.Y));
-            int minX = Math.Abs(exploredPositions.Min(mark => mark.X));
+            var visited = new HashSet<Position>();
 
-            int maxY = exploredPositions.Max(mark => mark.Y);
-            int maxX = exploredPositions.Max(mark => mark.X);
+            if (!graph.AdjacencyList.ContainsKey(start))
+                return count;
 
-            int yLength = minY + maxY;
-            int xLength = minX + maxX;
+            var queue = new Queue<Position>();
+            queue.Enqueue(start);
 
-            exploredPositions = exploredPositions.Select(item => new Position(item.X + minX, item.Y + minY, item.Content)).ToList();
-
-            string[][] matrix = new string[yLength + 2][];
-
-            for (var i = 0; i < yLength + 2; i++)
+            while (queue.Count > 0)
             {
-                var newArray = new string[xLength + 2];
-                for (var j = 0; j < xLength + 2; j++)
-                {
-                    newArray[j] = ".";
-                }
-                matrix[i] = newArray;
+                var vertex = queue.Dequeue();
+
+                if (visited.Contains(vertex))
+                    continue;
+
+                visited.Add(vertex);
+
+                foreach (var neighbor in graph.AdjacencyList[vertex])
+                    if (!visited.Contains(neighbor))
+                        queue.Enqueue(neighbor);
             }
 
-            int test = 0;
-            foreach (var mark in exploredPositions)
+            return count;
+        }
+
+        private static long DFSGrid(long[] input, PositionsGraph<Position> positions)
+        {
+            Droid droid = new Droid(new IntCodeProgram(input));
+
+            Position currentPosition = new Position(0, 0, Answer.Allowed);
+            positions.AddVertex(currentPosition);
+            Stack<Command> currentCommands = new Stack<Command>();
+            long currentDistance = 0;
+
+            while (true)
             {
-                test++;
-                switch(mark.Content)
+                bool foundDeadEnd = false;
+                Console.WriteLine($"I'm at current position {currentPosition.X}:{currentPosition.Y}");
+                Command command = CommandToTry(currentPosition);
+                if (command == Command.NoCommand)
                 {
-                    case Answer.Allowed:
-                        matrix[mark.Y][mark.X] = ".";
+                    Console.WriteLine($"Found dead end {currentPosition.X}:{currentPosition.Y}");
+                    command = GetOpposite(currentCommands.Pop());
+                    foundDeadEnd = true;
+                    currentDistance--;
+                }
+                else
+                {
+                    currentCommands.Push(command);
+                    currentDistance++;
+                }
+
+                var nextPosition = new Position(currentPosition.X, currentPosition.Y, Answer.Allowed);
+                Console.WriteLine($"Going to go {command.ToString()}");
+                switch (command)
+                {
+                    case Command.North:
+                        nextPosition.Y++;
+                        nextPosition.SouthTried = true;
+                        currentPosition.NorthTried = true;
                         break;
+                    case Command.South:
+                        nextPosition.Y--;
+                        nextPosition.NorthTried = true;
+                        currentPosition.SouthTried = true;
+                        break;
+                    case Command.West:
+                        nextPosition.X--;
+                        nextPosition.EastTried = true;
+                        currentPosition.WestTried = true;
+                        break;
+                    case Command.East:
+                        nextPosition.X++;
+                        nextPosition.WestTried = true;
+                        currentPosition.EastTried = true;
+                        break;
+                    case Command.NoCommand:
+                        throw new Exception("No Command passed through");
+                }
+
+                Answer answer = droid.Move(command);
+                switch (answer)
+                {
                     case Answer.Wall:
-                        matrix[mark.Y][mark.X] = "#";
+                        if (!foundDeadEnd)
+                            currentCommands.Pop();
+                        Console.WriteLine("Hit a wall");
+                        break;
+                    case Answer.Allowed:
+                        if (!positions.ContainsVertex(nextPosition))
+                        {
+                            positions.AddVertex(nextPosition);
+                            positions.AddEdge(Tuple.Create(currentPosition, nextPosition));
+                        }
+                        nextPosition = positions.GetVertex(nextPosition).Key;
+                        Console.WriteLine($"Moved from {currentPosition.X}:{currentPosition.Y} to {nextPosition.X}:{nextPosition.Y}");
+                        nextPosition.Distance = currentCommands.Count;
+                        currentPosition = nextPosition;
                         break;
                     case Answer.Success:
-                        matrix[mark.Y][mark.X] = "S";
+                        if (!positions.ContainsVertex(nextPosition))
+                        {
+                            positions.AddVertex(nextPosition);
+                            positions.AddEdge(Tuple.Create(currentPosition, nextPosition));
+                        }
+                        nextPosition = positions.GetVertex(nextPosition).Key;
+                        Console.WriteLine($"Moved from {currentPosition.X}:{currentPosition.Y} to {nextPosition.X}:{nextPosition.Y} OXYGEN");
+                        nextPosition.HasOxygen = true;
+                        nextPosition.Distance = currentCommands.Count;
+                        currentPosition = nextPosition;
                         break;
+                        //return 100;
                 }
+
+                Console.WriteLine($"I still have {currentCommands.Count} commands on the queue");
+                if (currentCommands.Count == 0 && positions.AdjacencyList.All(x => x.Key.EastTried && x.Key.NorthTried && x.Key.SouthTried && x.Key.WestTried))
+                {
+                    return positions.AdjacencyList.First(x => x.Key.HasOxygen).Key.Distance;
+                }
+            }
+        }
+
+        private static Command CommandToTry(Position currentPosition)
+        {
+            if (!currentPosition.NorthTried)
+            {
+                currentPosition.NorthTried = true;
+                return Command.North;
             }
 
-            for (var i = matrix.Length - 1; i >= 0; i--)
+            if (!currentPosition.SouthTried)
             {
-                var toPrint = string.Empty;
-                foreach (var character in matrix[i])
-                {
-                    toPrint += character;
-                }
-                Console.WriteLine(toPrint);
+                currentPosition.SouthTried = true;
+                return Command.South;
             }
+
+            if (!currentPosition.EastTried)
+            {
+                currentPosition.EastTried = true;
+                return Command.East;
+            }
+
+            if (!currentPosition.WestTried)
+            {
+                currentPosition.WestTried = true;
+                return Command.West;
+            }
+
+            return Command.NoCommand;
+        }
+
+        private static Command GetOpposite(Command command)
+        {
+            switch (command)
+            {
+                case Command.North:
+                    return Command.South;
+                case Command.South:
+                    return Command.North;
+                case Command.West:
+                    return Command.East;
+                case Command.East:
+                    return Command.West;
+            }
+            throw new Exception("Something went wrong");
+        }
+    }
+
+    public class Graph<T>
+    {
+        public Graph() { }
+        public Graph(IEnumerable<T> vertices, IEnumerable<Tuple<T, T>> edges)
+        {
+            foreach (var vertex in vertices)
+                AddVertex(vertex);
+
+            foreach (var edge in edges)
+                AddEdge(edge);
+        }
+
+        public Dictionary<T, HashSet<T>> AdjacencyList { get; } = new Dictionary<T, HashSet<T>>();
+
+        public void AddVertex(T vertex)
+        {
+            AdjacencyList[vertex] = new HashSet<T>();
+        }
+
+        public void AddEdge(Tuple<T, T> edge)
+        {
+            if (AdjacencyList.ContainsKey(edge.Item1) && AdjacencyList.ContainsKey(edge.Item2))
+            {
+                AdjacencyList[edge.Item1].Add(edge.Item2);
+                AdjacencyList[edge.Item2].Add(edge.Item1);
+            }
+        }
+    }
+
+    public class PositionsGraph<T> : Graph<T> where T : Position
+    {
+        public KeyValuePair<T, HashSet<T>> GetVertex(T vertex)
+        {
+            return AdjacencyList.FirstOrDefault(x => x.Key.X == vertex.X && x.Key.Y == vertex.Y);
+        }
+
+        public bool ContainsVertex(T vertex)
+        {
+            return AdjacencyList.Any(x => x.Key.X == vertex.X && x.Key.Y == vertex.Y);
+        }
+
+        public void RemoveVertex(T vertex)
+        {
+            AdjacencyList.Remove(GetVertex(vertex).Key);
         }
     }
 }

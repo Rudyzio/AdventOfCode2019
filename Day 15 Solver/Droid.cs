@@ -1,7 +1,4 @@
 ﻿using Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Day_15_Solver
 {
@@ -9,64 +6,16 @@ namespace Day_15_Solver
     {
         private IntCodeProgram intCodeProgram;
 
-        public long Distance { get; private set; }
-
-        public Position Position { get; set; }
-
-        public bool Success { get; set; }
-
-        public Droid(Position position, IntCodeProgram program, bool success = false)
+        public Droid(IntCodeProgram program)
         {
             intCodeProgram = program;
-            Position = position;
-            Success = success;
         }
 
-        public Droid MoveBFS(Command command, List<Position> exploredPositions)
+        public Answer Move(Command command)
         {
-            var nextPosition = new Position(Position.X, Position.Y, Answer.Allowed);
-            switch (command)
-            {
-                case Command.North:
-                    nextPosition.Y++;
-                    break;
-                case Command.East:
-                    nextPosition.X++;
-                    break;
-                case Command.South:
-                    nextPosition.Y--;
-                    break;
-                case Command.West:
-                    nextPosition.X--;
-                    break;
-            }
-
-            if (exploredPositions.Any(pos => pos.X == nextPosition.X && pos.Y == nextPosition.Y))
-            {
-                return null;
-            }
-            else
-            {
-                exploredPositions.Add(nextPosition);
-            }
-
             intCodeProgram.Input.Enqueue((long)command);
             intCodeProgram.Run();
-            var answer = intCodeProgram.Output.Dequeue();
-
-            exploredPositions.Single(pos => pos.X == nextPosition.X && pos.Y == nextPosition.Y).Content = (Answer)answer;
-
-            switch ((Answer)answer)
-            {
-                case Answer.Wall:
-                    return null;
-                case Answer.Allowed:
-                    return new Droid(nextPosition, intCodeProgram.Clone());
-                case Answer.Success:
-                    return new Droid(nextPosition, intCodeProgram.Clone(), true);
-            }
-
-            throw new Exception("This is not supposed to happen");
+            return (Answer)intCodeProgram.Output.Dequeue();
         }
     }
 
@@ -77,11 +26,27 @@ namespace Day_15_Solver
             X = x;
             Y = y;
             Content = content;
+            NorthTried = false;
+            SouthTried = false;
+            EastTried = false;
+            WestTried = false;
+            HasOxygen = false;
+            Distance = 0;
+            Visited = false;
+            Level = 0;
         }
 
         public int X { get; set; }
         public int Y { get; set; }
         public Answer Content { get; set; }
+        public bool Visited { get; set; }
+        public bool NorthTried { get; set; }
+        public bool SouthTried { get; set; }
+        public bool EastTried { get; set; }
+        public bool WestTried { get; set; }
+        public bool HasOxygen { get; set; }
+        public long Distance { get; set; }
+        public int Level { get; set; }
     }
 
     public enum Command
@@ -89,7 +54,8 @@ namespace Day_15_Solver
         North = 1,
         South = 2,
         West = 3,
-        East = 4
+        East = 4,
+        NoCommand = 99
     }
 
     public enum Answer

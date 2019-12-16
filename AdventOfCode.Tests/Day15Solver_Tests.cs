@@ -6,7 +6,7 @@ namespace AdventOfCode.Tests
     public class Day15Solver_Tests
     {
         [Theory]
-        [InlineData("Day15_Input/puzzle.input", 5357)]
+        [InlineData("Day15_Input/puzzle.input", 300)]
         public void TestPart1Solution(string inputFile, long expected)
         {
             // Arrange
