@@ -20,7 +20,7 @@ namespace AdventOfCode.Tests
         }
 
         [Theory]
-        [InlineData("Day15_Input/puzzle.input", 101956)]
+        [InlineData("Day15_Input/puzzle.input", 312)]
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange

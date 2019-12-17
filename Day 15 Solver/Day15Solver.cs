@@ -18,54 +18,38 @@ namespace Day_15_Solver
             PositionsGraph<Position> positions = new PositionsGraph<Position>();
             var levelsReached = new List<int>();
             DFSGrid(input, positions);
-            int count = 0;
-            positions.AdjacencyList.First(x => x.Key.HasOxygen).Key.Level = 0;
-            while (positions.AdjacencyList.Any(x => !x.Key.HasOxygen))
-            {
-                var positionsWithOxygenNotVisited = positions.AdjacencyList.Where(x => x.Key.HasOxygen && !x.Key.Visited);
-                foreach (var tuple in positionsWithOxygenNotVisited)
-                {
-                    tuple.Key.Visited = true;
-                    foreach (var child in tuple.Value)
-                    {
-                        if (!positions.AdjacencyList.First(pos => pos.Key.X == child.X && pos.Key.Y == child.Y).Key.HasOxygen)
-                        {
-                            Console.WriteLine($"Marking {child.X}:{child.Y} to have oxygen and level {tuple.Key.Level}");
-                            positions.AdjacencyList.First(pos => pos.Key.X == child.X && pos.Key.Y == child.Y).Key.HasOxygen = true;
-                            positions.AdjacencyList.First(pos => pos.Key.X == child.X && pos.Key.Y == child.Y).Key.Level = tuple.Key.Level + 1;
-                        }
-                    }
-                    count = tuple.Key.Level;
-                }
-            }
-            return count;
+
+            return BFSLevels(positions, positions.AdjacencyList.First(x => x.Key.HasOxygen).Key);
         }
 
-        private static int BFS(PositionsGraph<Position> graph, Position start, int count = 0)
+        private static int BFSLevels(PositionsGraph<Position> positions, Position start)
         {
-            var visited = new HashSet<Position>();
-
-            if (!graph.AdjacencyList.ContainsKey(start))
-                return count;
-
-            var queue = new Queue<Position>();
-            queue.Enqueue(start);
-
-            while (queue.Count > 0)
+            int count = 0;
+            Queue<Position> toVisit = new Queue<Position>();
+            Queue<Position> childrenQueue = new Queue<Position>();
+            var positionsVisited = new List<Position>();
+            toVisit.Enqueue(start);
+            while (positions.AdjacencyList.Count != positionsVisited.Count)
             {
-                var vertex = queue.Dequeue();
+                while (toVisit.Count > 0)
+                {
+                    var currentNode = toVisit.Dequeue();
+                    positionsVisited.Add(currentNode);
+                    var children = positions.AdjacencyList[currentNode];
 
-                if (visited.Contains(vertex))
-                    continue;
-
-                visited.Add(vertex);
-
-                foreach (var neighbor in graph.AdjacencyList[vertex])
-                    if (!visited.Contains(neighbor))
-                        queue.Enqueue(neighbor);
+                    foreach (var child in children)
+                    {
+                        if (!positionsVisited.Any(pos => pos.X == child.X && pos.Y == child.Y))
+                        {
+                            childrenQueue.Enqueue(child);
+                        }
+                    }
+                }
+                count++;
+                toVisit = new Queue<Position>(childrenQueue);
+                childrenQueue.Clear();
             }
-
-            return count;
+            return count - 1;
         }
 
         private static long DFSGrid(long[] input, PositionsGraph<Position> positions)
@@ -154,7 +138,6 @@ namespace Day_15_Solver
                         nextPosition.Distance = currentCommands.Count;
                         currentPosition = nextPosition;
                         break;
-                        //return 100;
                 }
 
                 Console.WriteLine($"I still have {currentCommands.Count} commands on the queue");
