@@ -6,7 +6,9 @@ namespace AdventOfCode.Tests
     public class Day20Solver_Tests
     {
         [Theory]
-        [InlineData("Day20_Input/puzzle.input", 5357)]
+        [InlineData("Day20_Input/puzzle.input", 684)]
+        [InlineData("Day20_Input/test1.input", 23)]
+        [InlineData("Day20_Input/test2.input", 58)]
         public void TestPart1Solution(string inputFile, int expected)
         {
             // Arrange
@@ -20,7 +22,9 @@ namespace AdventOfCode.Tests
         }
 
         [Theory]
-        [InlineData("Day20_Input/puzzle.input", 102056)]
+        [InlineData("Day20_Input/test1.input", 26)]
+        [InlineData("Day20_Input/test3.input", 396)]
+        [InlineData("Day20_Input/puzzle.input", 7758)]
         public void TestPart2Solution(string inputFile, int expected)
         {
             // Arrange
