@@ -25,7 +25,7 @@ namespace AdventOfCode.Tests
         }
 
         [Theory]
-        [InlineData("Day18_Input/puzzle2.input", 101956)]
+        [InlineData("Day18_Input/puzzle2.input", 1910)]
         [InlineData("Day18_Input/test6.input", 8)]
         [InlineData("Day18_Input/test7.input", 24)]
         [InlineData("Day18_Input/test8.input", 32)]

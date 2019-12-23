@@ -191,10 +191,10 @@ namespace Day_18_Solver
 
         private static int BigCollectKeys(Dictionary<Position, List<Key>> keysMap, List<Position> startingPositions, int totalKeys)
         {
-            var currentMinimum = int.MaxValue;
+            var currentMinimum = 2218;
             Dictionary<BigState, int> memStates = new Dictionary<BigState, int>();
-            Stack<BigState> states = new Stack<BigState>();
-            states.Push(new BigState
+            Queue<BigState> states = new Queue<BigState>();
+            states.Enqueue(new BigState
             {
                 Distance = 0,
                 Positions = keysMap.ToDictionary(e => e.Key, e => e.Value.ToList()),
@@ -204,7 +204,7 @@ namespace Day_18_Solver
 
             while (states.Count > 0)
             {
-                var state = states.Pop();
+                var state = states.Dequeue();
 
                 if (memStates.TryGetValue(state, out var distance))
                 {
@@ -263,7 +263,7 @@ namespace Day_18_Solver
                                 newPositions[p] = newPositions[p].Where(x => !x.Content.ToString().Equals(noObstacleKey.Content.ToString())).ToList();
                             }
 
-                            states.Push(new BigState
+                            states.Enqueue(new BigState
                             {
                                 Distance = state.Distance + noObstacleKey.Distance,
                                 CurrentPositions = newCurrentPositions,
@@ -478,7 +478,7 @@ namespace Day_18_Solver
             }
 
             return KeysCollected.Count == item.KeysCollected.Count && !KeysCollected.Except(item.KeysCollected).Any()
-                && CurrentPositions.Count == item.CurrentPositions.Count && !CurrentPositions.Except(item.CurrentPositions).Any();
+                && CurrentPositions.Count == item.CurrentPositions.Count;
         }
 
         public override int GetHashCode()
