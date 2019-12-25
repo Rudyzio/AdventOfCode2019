@@ -10,10 +10,10 @@ namespace AdventOfCode.Tests
         public void TestPart1Solution(string inputFile, int expected)
         {
             // Arrange
-            string[] lines = System.IO.File.ReadAllLines($"../../../{inputFile}");
+            long[] input = Helpers.ReadIntCodeInput($"../../../{inputFile}");
 
             // Act
-            var result = Day25Solver.Part1Solution(lines);
+            var result = Day25Solver.Part1Solution(input);
 
             // Assert
             Assert.Equal(expected, result);
